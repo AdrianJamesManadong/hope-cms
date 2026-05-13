@@ -66,7 +66,7 @@ function App() {
 
         {/* SUPERADMIN only */}
         <Route path="/admin" element={
-          <AdminRoute><UserManagementPage /></AdminRoute>
+          <SuperAdminRoute><UserManagementPage /></SuperAdminRoute>
         } />
 
       </Route>
