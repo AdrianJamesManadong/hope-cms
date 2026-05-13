@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
 function Register() {
+  document.title = 'Register | Hope CMS'
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -16,7 +17,7 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
-    if (formData.password !== formData.confirmPassword) { setError('Passwords do not match.'); return; }
+    if (formData.password !== formData.confirmPassword) { setError('The Passwords do not match.'); return; }
     if (formData.password.length < 6) { setError('Password must be at least 6 characters.'); return; }
     setLoading(true);
     const username = `${formData.firstName.trim().toLowerCase()}.${formData.lastName.trim().toLowerCase()}`;
@@ -94,7 +95,7 @@ function Register() {
                 <span style={{ fontSize: 11, fontWeight: 600, color: '#fbbf24', letterSpacing: '0.05em' }}>PENDING ACTIVATION</span>
               </div>
               <p style={{ color: '#4b5563', fontSize: 13, lineHeight: 1.7, marginBottom: 28 }}>
-                A Sales Manager or Admin will activate your account. You'll be able to login once approved.
+                A SUPERADMIN will activate your account. You'll be able to login once approved.
               </p>
               <Link to="/login" style={{ display: 'block', padding: 13, borderRadius: 12, background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)', color: 'white', textDecoration: 'none', fontWeight: 600, fontSize: 14, textAlign: 'center', boxShadow: '0 4px 20px rgba(59,130,246,0.3)' }}>
                 Back to Login
@@ -160,9 +161,9 @@ function Register() {
               <span style={{ background: 'linear-gradient(90deg, #60a5fa, #a78bfa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>account.</span>
             </h1>
             <p style={{ color: '#4b5563', fontSize: 13, lineHeight: 1.7, marginBottom: 28, maxWidth: 300 }}>
-              Fill in your details. Your account will be pending until a Sales Manager approves it.
+              Fill in your details. Your account will be pending until a SUPERADMIN approves it.
             </p>
-            {['Fill in your details', 'Account created as Pending', 'Admin reviews & activates', 'Login and get started'].map((s, i) => (
+            {['Fill in your details', 'Account created as Pending', 'SUPERADMIN reviews & activates', 'Login and get started'].map((s, i) => (
               <div key={i} className="reg-step">
                 <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#1d4ed8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: 'white', flexShrink: 0 }}>{i + 1}</div>
                 <span style={{ color: '#6b7280', fontSize: 13 }}>{s}</span>
