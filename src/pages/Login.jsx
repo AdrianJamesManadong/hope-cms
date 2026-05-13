@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 
 function Login() {
+     document.title = 'Login | Hope CMS';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -24,7 +25,7 @@ function Login() {
     setLoading(false);
   };
 
-  const displayError = error || authError || (pendingFromGoogle ? 'Your account is pending activation by a Sales Manager.' : null);
+  const displayError = error || authError || (pendingFromGoogle ? 'Your account is pending activation by a SUPERADMIN.' : null);
   const isWarning = !error && (authError || pendingFromGoogle);
 
   return (
