@@ -324,34 +324,38 @@ function CustomerDetailPage() {
                       <th className="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider text-gray-500">
                         Qty
                       </th>
+                      <th className="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider text-gray-500">
+  Unit Price
+</th>
                     </tr>
                   </thead>
 
                   <tbody>
                     {transDetail.map((item, idx) => (
-                      <tr
-                        key={idx}
-                        className="border-b border-gray-100 hover:bg-gray-50 transition"
-                      >
-                        <td className="px-6 py-5 font-mono text-sm font-semibold text-gray-800">
-                          {item.prodcode}
-                        </td>
-
-                        <td className="px-6 py-5 text-sm text-gray-700">
-                          {item.product?.description ?? '—'}
-                        </td>
-
-                        <td className="px-6 py-5 text-sm text-gray-500">
-                          {item.product?.unit ?? '—'}
-                        </td>
-
-                        <td className="px-6 py-5 text-right">
-                          <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-xl text-sm font-semibold">
-                            {item.quantity}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
+  <tr
+    key={idx}
+    className="border-b border-gray-100 hover:bg-gray-50 transition"
+  >
+    <td className="px-6 py-5 font-mono text-sm font-semibold text-gray-800">
+      {item.prodcode}
+    </td>
+    <td className="px-6 py-5 text-sm text-gray-700">
+      {item.product?.description ?? '—'}
+    </td>
+    <td className="px-6 py-5 text-sm text-gray-500">
+      {item.product?.unit ?? '—'}
+    </td>
+    <td className="px-6 py-5 text-right">
+      <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-xl text-sm font-semibold">
+        {item.quantity}
+      </span>
+    </td>
+    {/* ADD THIS */}
+    <td className="px-6 py-5 text-right text-sm font-semibold text-gray-800">
+      ₱{item.product?.unitprice?.toFixed(2) ?? '—'}
+    </td>
+  </tr>
+))}
                   </tbody>
                 </table>
               )}
