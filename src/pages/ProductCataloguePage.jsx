@@ -325,7 +325,7 @@ function ProductCataloguePage() {
             </p>
 
             <h2 className="stat-value stat-green">
-              $
+              ₱
               {averagePrice.toLocaleString(
                 'en-US',
                 {
@@ -409,7 +409,7 @@ function ProductCataloguePage() {
                         {product.currentPrice !=
                         null ? (
                           <span className="price">
-                            $
+                            ₱
                             {Number(
                               product.currentPrice
                             ).toFixed(2)}
