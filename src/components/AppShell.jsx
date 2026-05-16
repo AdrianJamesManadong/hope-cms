@@ -257,20 +257,7 @@ export default function AppShell() {
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              {/* Search hint */}
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: 8,
-                padding: '7px 14px', borderRadius: 9,
-                background: surfaceBg, border: `1px solid ${borderColor}`,
-                color: textMuted, fontSize: 13, cursor: 'pointer',
-              }}>
-                <i className="ti ti-search" style={{ fontSize: 15 }} aria-hidden="true" />
-                <span>Search…</span>
-                <span style={{
-                  fontSize: 11, padding: '2px 6px', borderRadius: 5,
-                  background: 'rgba(255,255,255,0.07)', color: textMuted,
-                }}>⌘K</span>
-              </div>
+             
 
               {/* Sign out */}
               <button
