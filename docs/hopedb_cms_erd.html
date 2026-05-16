@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HopeDB CMS – Entity Relationship Diagram</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8f6;
+      color: #2c2c2a;
+      margin: 0;
+      padding: 32px 24px;
+    }
+    h1 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    p.subtitle {
+      font-size: 13px;
+      color: #5f5e5a;
+      margin: 0 0 24px;
+    }
+    #erd {
+      background: #fff;
+      border: 1px solid #d3d1c7;
+      border-radius: 10px;
+      padding: 24px;
+    }
+    #erd svg { max-width: 100%; }
+    footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #888780;
+    }
+  </style>
+</head>
+<body>
+  <h1>HopeDB CMS — Entity Relationship Diagram</h1>
+  <p class="subtitle">Sprint 1 · PR-03 · docs/db-erd &nbsp;|&nbsp; Hope, Inc. Customer Management System &nbsp;|&nbsp; New Era University – CCS</p>
+  <div id="erd"></div>
+  <footer>5 CMS tables: customer (with record_status &amp; stamp), sales, salesDetail, product, priceHist</footer>
+
+  <script type="module">
+    import mermaid from 'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs';
+    const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      fontFamily: 'Arial, sans-serif',
+      themeVariables: {
+        darkMode: dark,
+        fontSize: '13px',
+        fontFamily: 'Arial, sans-serif',
+        lineColor: '#73726c',
+        textColor: '#3d3d3a',
+        primaryColor: '#f1efe8',
+        primaryBorderColor: '#b4b2a9',
+        primaryTextColor: '#3d3d3a',
+        secondaryColor: '#e6f1fb',
+        tertiaryColor: '#e1f5ee',
+      },
+    });
+
+    const diagram = `erDiagram
+  customer {
+    VARCHAR5 custno PK
+    VARCHAR20 custname
+    VARCHAR50 address
+    VARCHAR3 payterm
+    VARCHAR10 record_status
+    TIMESTAMP stamp
+  }
+  sales {
+    VARCHAR8 transNo PK
+    DATE salesDate
+    VARCHAR5 custNo FK
+    VARCHAR5 empNo FK
+  }
+  salesDetail {
+    VARCHAR8 transNo PK,FK
+    VARCHAR6 prodCode PK,FK
+    DECIMAL quantity
+  }
+  product {
+    VARCHAR6 prodCode PK
+    VARCHAR30 description
+    VARCHAR3 unit
+  }
+  priceHist {
+    DATE effDate PK
+    VARCHAR6 prodCode PK,FK
+    DECIMAL unitPrice
+  }
+  customer ||--o{ sales : "places"
+  sales ||--o{ salesDetail : "contains"
+  product ||--o{ salesDetail : "ordered in"
+  product ||--o{ priceHist : "has price history"
+`;
+
+    const { svg } = await mermaid.render('erd-svg', diagram);
+    document.getElementById('erd').innerHTML = svg;
+
+    document.querySelectorAll('#erd svg .node').forEach(node => {
+      const firstPath = node.querySelector('path[d]');
+      if (!firstPath) return;
+      const d = firstPath.getAttribute('d');
+      const nums = d.match(/-?[\d.]+/g)?.map(Number);
+      if (!nums || nums.length < 8) return;
+      const xs = [nums[0], nums[2], nums[4], nums[6]];
+      const ys = [nums[1], nums[3], nums[5], nums[7]];
+      const x = Math.min(...xs), y = Math.min(...ys);
+      const w = Math.max(...xs) - x, h = Math.max(...ys) - y;
+      const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      rect.setAttribute('x', x); rect.setAttribute('y', y);
+      rect.setAttribute('width', w); rect.setAttribute('height', h);
+      rect.setAttribute('rx', '8');
+      for (const a of ['fill', 'stroke', 'stroke-width', 'class', 'style']) {
+        if (firstPath.hasAttribute(a)) rect.setAttribute(a, firstPath.getAttribute(a));
+      }
+      firstPath.replaceWith(rect);
+    });
+
+    document.querySelectorAll('#erd svg .row-rect-odd path, #erd svg .row-rect-even path').forEach(p => {
+      p.setAttribute('stroke', 'none');
+    });
+  </script>
+</body>
+</html>
