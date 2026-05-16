@@ -326,7 +326,7 @@ function CustomerSalesSummaryPage() {
             </p>
 
             <h2 className="stat-value stat-green">
-              $
+              ₱
               {totalRevenue.toLocaleString(
                 'en-US',
                 {
@@ -420,7 +420,7 @@ function CustomerSalesSummaryPage() {
                           textAlign: 'right'
                         }}
                       >
-                        $
+                        ₱
                         {Number(
                           row.total_spend
                         ).toLocaleString('en-US', {
