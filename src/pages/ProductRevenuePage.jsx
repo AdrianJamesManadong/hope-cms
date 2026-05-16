@@ -356,7 +356,7 @@ function ProductRevenuePage() {
             </p>
 
             <h2 className="stat-value stat-green">
-              $
+              ₱
               {totalRevenue.toLocaleString(
                 'en-US',
                 {
@@ -472,7 +472,7 @@ function ProductRevenuePage() {
                             textAlign: 'right'
                           }}
                         >
-                          $
+                          ₱
                           {Number(
                             row.total_revenue
                           ).toLocaleString(
