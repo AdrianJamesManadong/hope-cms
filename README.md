@@ -31,7 +31,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key-here
 ```bash
 npm run dev
 ```
-App runs at `http://localhost:5173`
+App runs at https://pentabytess-cms-neu.vercel.app/login
 
 ### 5. Run tests
 ```bash
