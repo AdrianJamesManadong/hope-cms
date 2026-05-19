@@ -12,6 +12,7 @@ const NAV_ITEMS = [
 
 const ADMIN_ITEMS = [
   { to: '/reports/products',   label: 'Product Revenue',  icon: 'ti-trending-up',  dot: '#8b5cf6' },
+  { to: '/price-history',      label: 'Price History',    icon: 'ti-clock-dollar', dot: '#06b6d4' },
   { to: '/deleted-customers',  label: 'Deleted Customers',icon: 'ti-trash',        dot: '#6b7280' },
 ];
 
@@ -257,7 +258,6 @@ export default function AppShell() {
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-             
 
               {/* Sign out */}
               <button

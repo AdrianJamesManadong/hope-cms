@@ -197,7 +197,7 @@ Supabase
 ## Slide 12: Thank You
 **Hope CMS — Delivered**
 
-🔗 **Live App:** https://hope-cms.vercel.app
+🔗 **Live App:** https://pentabytess-cms-neu.vercel.app/login
 📁 **GitHub:** github.com/AdrianJamesManadong/hope-cms
 
 **Group 5 — New Era University**
