@@ -82,5 +82,5 @@ hope-cms/
 | Sprint | Theme | Status |
 |--------|-------|--------|
 | Sprint 1 | Project setup, database, authentication | ✅ Complete |
-| Sprint 2 | Customer CRUD, rights enforcement | 🔄 Next |
-| Sprint 3 | Admin module, reports, deployment | ⏳ Pending |
+| Sprint 2 | Customer CRUD, rights enforcement | ✅ Complete |
+| Sprint 3 | Admin module, reports, deployment | ✅ Complete |
