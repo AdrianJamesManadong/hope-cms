@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { reportsService } from '../services/reportsService';
 
 function CustomerSalesSummaryPage() {
@@ -6,6 +7,7 @@ function CustomerSalesSummaryPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadSummary();
@@ -215,12 +217,24 @@ function CustomerSalesSummaryPage() {
           font-size:14px;
         }
 
-        tbody tr{
+        tbody tr.clickable-row{
           transition:.2s;
+          cursor:pointer;
         }
 
-        tbody tr:hover{
-          background:rgba(255,255,255,.03);
+        tbody tr.clickable-row:hover{
+          background:rgba(59,130,246,.08);
+        }
+
+        tbody tr.clickable-row:hover .customer-name{
+          color:#60a5fa;
+        }
+
+        .drill-hint{
+          font-size:11px;
+          color:#475569;
+          margin-top:2px;
+          font-weight:400;
         }
 
         .mono{
@@ -235,6 +249,7 @@ function CustomerSalesSummaryPage() {
         .customer-name{
           font-weight:600;
           color:white;
+          transition:.2s;
         }
 
         .money{
@@ -244,6 +259,17 @@ function CustomerSalesSummaryPage() {
 
         .date{
           color:#94a3b8;
+        }
+
+        .arrow-icon{
+          color:#475569;
+          font-size:16px;
+          transition:.2s;
+        }
+
+        tbody tr.clickable-row:hover .arrow-icon{
+          color:#60a5fa;
+          transform:translateX(3px);
         }
 
         .loading,
@@ -291,49 +317,34 @@ function CustomerSalesSummaryPage() {
           <h1 className="sales-title">
             Customer Sales Summary
           </h1>
-
           <p className="sales-sub">
-            Read-only analytics dashboard ranked by
-            total customer spend.
+            Read-only analytics dashboard ranked by total customer spend. Click a row to view transaction details.
           </p>
         </div>
 
         {/* STATS */}
         <div className="stats-grid">
           <div className="stat-card">
-            <p className="stat-label">
-              Total Customers
-            </p>
-
+            <p className="stat-label">Total Customers</p>
             <h2 className="stat-value stat-blue">
               {summary.length}
             </h2>
           </div>
 
           <div className="stat-card">
-            <p className="stat-label">
-              Total Transactions
-            </p>
-
+            <p className="stat-label">Total Transactions</p>
             <h2 className="stat-value stat-blue">
               {totalTransactions}
             </h2>
           </div>
 
           <div className="stat-card">
-            <p className="stat-label">
-              Total Revenue
-            </p>
-
+            <p className="stat-label">Total Revenue</p>
             <h2 className="stat-value stat-green">
-              ₱
-              {totalRevenue.toLocaleString(
-                'en-US',
-                {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2
-                }
-              )}
+              ₱{totalRevenue.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+              })}
             </h2>
           </div>
         </div>
@@ -344,17 +355,13 @@ function CustomerSalesSummaryPage() {
             type="text"
             placeholder="Search customer name or customer number..."
             value={searchTerm}
-            onChange={(e) =>
-              setSearchTerm(e.target.value)
-            }
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
 
         {/* ERROR */}
         {error && (
-          <div className="error-box">
-            {error}
-          </div>
+          <div className="error-box">{error}</div>
         )}
 
         {/* TABLE */}
@@ -372,20 +379,17 @@ function CustomerSalesSummaryPage() {
                   <th>Rank</th>
                   <th>Cust No</th>
                   <th>Customer Name</th>
-                  <th style={{ textAlign: 'right' }}>
-                    Transactions
-                  </th>
-                  <th style={{ textAlign: 'right' }}>
-                    Total Spend
-                  </th>
+                  <th style={{ textAlign: 'right' }}>Transactions</th>
+                  <th style={{ textAlign: 'right' }}>Total Spend</th>
                   <th>Last Sale</th>
+                  <th></th>
                 </tr>
               </thead>
 
               <tbody>
                 {filtered.length === 0 ? (
                   <tr>
-                    <td colSpan="6">
+                    <td colSpan="7">
                       <div className="empty">
                         No customer sales data found.
                       </div>
@@ -393,43 +397,30 @@ function CustomerSalesSummaryPage() {
                   </tr>
                 ) : (
                   filtered.map((row, idx) => (
-                    <tr key={row.custno}>
-                      <td className="mono rank">
-                        #{idx + 1}
+                    <tr
+                      key={row.custno}
+                      className="clickable-row"
+                      onClick={() => navigate(`/sales/${row.custno}`)}
+                    >
+                      <td className="mono rank">#{idx + 1}</td>
+                      <td className="mono">{row.custno}</td>
+                      <td>
+                        <div className="customer-name">{row.custname}</div>
+                        <div className="drill-hint">Click to view transactions</div>
                       </td>
-
-                      <td className="mono">
-                        {row.custno}
-                      </td>
-
-                      <td className="customer-name">
-                        {row.custname}
-                      </td>
-
-                      <td
-                        style={{
-                          textAlign: 'right'
-                        }}
-                      >
+                      <td style={{ textAlign: 'right' }}>
                         {row.total_transactions}
                       </td>
-
-                      <td
-                        className="money"
-                        style={{
-                          textAlign: 'right'
-                        }}
-                      >
-                        ₱
-                        {Number(
-                          row.total_spend
-                        ).toLocaleString('en-US', {
+                      <td className="money" style={{ textAlign: 'right' }}>
+                        ₱{Number(row.total_spend).toLocaleString('en-US', {
                           minimumFractionDigits: 2
                         })}
                       </td>
-
                       <td className="date">
                         {row.last_sale_date ?? '—'}
+                      </td>
+                      <td>
+                        <span className="arrow-icon">→</span>
                       </td>
                     </tr>
                   ))
@@ -439,8 +430,7 @@ function CustomerSalesSummaryPage() {
 
             {filtered.length > 0 && (
               <div className="table-footer">
-                {filtered.length} customer
-                {filtered.length !== 1 ? 's' : ''}
+                {filtered.length} customer{filtered.length !== 1 ? 's' : ''}
               </div>
             )}
           </div>

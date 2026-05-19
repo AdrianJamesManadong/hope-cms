@@ -11,7 +11,9 @@ import ProductCataloguePage from './pages/ProductCataloguePage';
 import DeletedCustomersPage from './pages/DeletedCustomersPage';
 import UserManagementPage from './pages/UserManagementPage';
 import CustomerSalesSummaryPage from './pages/CustomerSalesSummaryPage';
+import SalesDetailPage from './pages/SalesDetailPage';
 import ProductRevenuePage from './pages/ProductRevenuePage';
+import PriceHistoryPage from './pages/PriceHistoryPage';
 
 const AdminRoute = ({ children }) => {
   const { userType } = useRights();
@@ -54,6 +56,7 @@ function App() {
         <Route path="/customers" element={<CustomerListPage />} />
         <Route path="/customers/:custno" element={<CustomerDetailPage />} />
         <Route path="/sales" element={<CustomerSalesSummaryPage />} />
+        <Route path="/sales/:custno" element={<SalesDetailPage />} />
         <Route path="/products" element={<ProductCataloguePage />} />
 
         {/* ADMIN + SUPERADMIN only */}
@@ -63,11 +66,14 @@ function App() {
         <Route path="/reports/products" element={
           <AdminRoute><ProductRevenuePage /></AdminRoute>
         } />
-
-        {/* SUPERADMIN only */}
-        <Route path="/admin" element={
-          <SuperAdminRoute><UserManagementPage /></SuperAdminRoute>
+        <Route path="/price-history" element={
+          <AdminRoute><PriceHistoryPage /></AdminRoute>
         } />
+
+        {/* ADMIN + SUPERADMIN */}
+<Route path="/admin" element={
+  <AdminRoute><UserManagementPage /></AdminRoute>
+} />
 
       </Route>
 
